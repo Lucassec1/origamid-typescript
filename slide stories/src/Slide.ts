@@ -56,13 +56,16 @@ export default class Slide {
         this.show(next);
     }
     pause() {
-        this.pausedTimeout = new Timeout(() => this.paused = true , 300);
+        this.pausedTimeout = new Timeout(() => {
+            this.timeout?.pause();
+            this.paused = true;
+        }, 300);
     }
     continue() {
         this.pausedTimeout?.clear();
         if (this.paused) {
             this.paused = false;
-            this.auto(this.time);
+            this.timeout?.continue();
         }
     }
     private addControls() {
